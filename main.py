@@ -1,16 +1,19 @@
-# This is a sample Python script.
+import telebot, button_help
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+bot = telebot.TeleBot('6430626571:AAFeidgwfWkeo73p_jpDQ199BdJdG_BZH9s')
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+@bot.message_handler(commands=['start'])
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+def start(message):
+    bot.send_message(message.chat.id, 'Hi! choose your action', reply_markup=button_help.button())
+
+
+
+@bot.message_handler(commands=['help'])
+
+def help(message):
+    bot.send_message(message.chat.id, 'If you have problems and you want to recourse, please, message to our admin, his contacts: @safarov_mirshod')
+    bot.register_next_step_handler(message, help)
+
+bot.polling(none_stop=True)
